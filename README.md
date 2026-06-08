@@ -168,9 +168,3 @@ python extract_financials.py
 python strategy_metrics.py
 ```
 
----
-
-
-
-
-```
