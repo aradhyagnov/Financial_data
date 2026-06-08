@@ -6,8 +6,7 @@ A small two-script toolkit for a quantitative backtesting workflow:
    tickers from Yahoo Finance and saves it as CSV.
 2. **`strategy_metrics.py`** — backtests a trading strategy on that price data and
    computes the performance metrics (hit-rate, ARR, max drawdown, Sharpe,
-   capital vs. benchmarks) using the **same definitions as the columns in
-   `projj_filled.xlsx`**.
+   capital vs. benchmarks)
 
 The intended flow is: **extract data → run strategies → read metrics**.
 
@@ -171,11 +170,11 @@ python strategy_metrics.py
 
 ---
 
-## Results — analysis of `projj_filled.xlsx`
+## Results — analysis of stocks
 
+This repository is a small branch of a mother workbook built using 150 strategies which were backtested on the NASDAQ exchange. 
 The source workbook contains a backtest of **5,523 stocks × 150 strategy/parameter
-combinations** (828,450 rows in the `train` sheet), plus a curated `final rank`
-sheet of the top performers.
+combinations** (828,450 rows in the `train` sheet)
 
 ### How the ranking is built
 
