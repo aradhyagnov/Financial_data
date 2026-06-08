@@ -131,8 +131,6 @@ downloaded (e.g. offline), it prints a note and leaves `cap_vs_spy` as `NaN`.
 
 ## Metric reference
 
-The metric keys map directly onto the `projj_filled.xlsx` columns:
-
 | Code key | Spreadsheet column | Definition |
 |---|---|---|
 | `arr` | ARR | CAGR of the equity curve, annualized (252 trading days) |
@@ -150,60 +148,3 @@ The metric keys map directly onto the `projj_filled.xlsx` columns:
 
 ---
 
-## Background — why these stocks
-
-These tickers come from an analysis of `projj_filled.xlsx`, a backtest of
-**5,523 stocks × 150 strategy/parameter combinations**. For each stock, its
-**champion** = the strategy/parameter combo with the highest 3-year ARR; ranking
-all champions by ARR gives each stock's standing in the universe (median champion
-ARR ≈ **17.6%**, top-decile cutoff ≈ **87%**).
-
-Ranking the 15 most famous large-caps best → worst by champion ARR:
-
-| # | Ticker | Company | Rank | ARR | Sharpe | vs B&H | vs SPY |
-|---|--------|---------|-----:|------:|-------:|-------:|-------:|
-| 1 | AAPL | Apple | 2,247 | 23.2% | 2.02 | 1.07× | 1.04× |
-| 2 | GOOGL | Alphabet | 2,352 | 21.8% | 1.29 | 0.63× | 1.01× |
-| 3 | CSCO | Cisco Systems | 2,684 | 18.4% | 1.79 | 0.99× | 0.94× |
-| 4 | NVDA | Nvidia | 3,265 | 14.0% | 1.24 | 0.31× | 0.85× |
-| 5 | AMD | Advanced Micro Devices | 3,267 | 14.0% | 0.78 | 0.80× | 0.85× |
-| 6 | NFLX | Netflix | 3,330 | 13.5% | 1.09 | 0.50× | 0.84× |
-| 7 | QCOM | Qualcomm | 3,437 | 12.7% | 1.03 | 0.93× | 0.83× |
-| 8 | META | Meta Platforms | 3,577 | 12.0% | 1.16 | 0.54× | 0.82× |
-| 9 | AVGO | Broadcom | 3,883 | 10.2% | 0.80 | 0.25× | 0.78× |
-| 10 | TSLA | Tesla | 4,039 | 9.3% | 0.61 | 0.58× | 0.77× |
-| 11 | COST | Costco Wholesale | 4,109 | 8.8% | 0.98 | 0.69× | 0.76× |
-| 12 | ADBE | Adobe | 4,500 | 6.6% | 0.52 | 1.53× | 0.72× |
-| 13 | AMZN | Amazon.com | 5,120 | 3.2% | 0.38 | 0.56× | 0.67× |
-| 14 | MSFT | Microsoft | 5,133 | 3.1% | 0.74 | 0.73× | 0.66× |
-| 15 | PEP | PepsiCo | 5,381 | 1.4% | 0.18 | 1.26× | 0.64× |
-
-Of these, the five in this repo are **AAPL, AMZN, MSFT, NVDA, PEP**.
-
-### Key findings
-
-- **The famous megacaps rank poorly.** The best (AAPL) only reaches the top ~41%
-  of the universe; MSFT, AMZN, and PEP sit near the very bottom (rank 5,100+).
-  Most fall below the median champion ARR.
-- **Only AAPL (1.04×) and GOOGL (1.01×) beat SPY.** Most others underperformed
-  the index even with their optimal strategy, and most have a "vs B&H" below
-  1.0× — i.e. the strategy did worse than simply holding the stock.
-- **Edge concentrates in volatile small-caps.** The workbook's top-ranked
-  performers are all obscure microcaps, where technical timing strategies find
-  inefficiency that doesn't exist in large, efficient names.
-
----
-
-## Notes & caveats
-
-- **Prices from yfinance are reliable; fundamentals are patchy.** Yahoo's
-  statement data can be partial or stale. For audited fundamentals, use
-  **SEC EDGAR** (`companyfacts` API, free) or a keyed provider (Financial
-  Modeling Prep, Alpha Vantage).
-- **Hit-rate convention.** Defined here as the *round-trip trade* win rate. If
-  your pipeline uses the fraction of *bars* with positive return instead, swap
-  `hit_rate(trade_rets)` for `(strat_ret > 0).mean()` in `backtest()`.
-- **ARR convention.** Computed as CAGR. If `projj_filled.xlsx` annualizes
-  differently, adjust `annualized_return()` accordingly.
-- **Transaction costs** are a simple `cost_bps` charge on changes in exposure;
-  slippage, borrow costs, and market impact are not modeled.
